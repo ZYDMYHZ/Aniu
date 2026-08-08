@@ -198,8 +198,12 @@ const tradeSuccessRate = computed(() => {
 })
 
 const todayTradeCount = computed(() => {
-  const now = new Date()
-  const prefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  const a = account.value
+  const tradeDate = a.daily_profit_trade_date
+  const prefix = tradeDate || (() => {
+    const now = new Date()
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  })()
   return displayOrders.value.filter((o) => Boolean(o.order_time?.startsWith(prefix)) && (o.filled_quantity ?? 0) > 0).length
 })
 
@@ -240,7 +244,7 @@ const kpis = computed(() => {
     {
       label: `今日盈亏 · ${a.daily_profit_trade_date || '--'}`,
       value: formatSignedMoney(a.daily_profit),
-      sub: `收益率 ${formatPercent(a.daily_return_ratio)} · 今日 ${todayTradeCount} 次`,
+      sub: `收益率 ${formatPercent(a.daily_return_ratio)} · 今日 ${todayTradeCount.value} 次`,
       icon: Zap, iconTone: '', valueClass: pnlClass(a.daily_profit) || undefined, subClass: pnlClass(a.daily_return_ratio) || undefined,
     },
   ]
