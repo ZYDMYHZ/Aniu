@@ -269,10 +269,35 @@ onBeforeUnmount(() => {
 
 @media (max-width: 768px) {
   .chat-page {
-    height: calc(100vh - 68px - var(--gutter) * 2);
+    height: auto;
+    min-height: 0;
   }
   .chat-workspace {
     grid-template-columns: 1fr;
+    height: auto;
+    flex: none;
+    overflow: visible;
+    gap: 12px;
+  }
+
+  /* 移动端堆叠布局：侧栏限高内滚，对话区随内容自然撑开，由页面统一滚动 */
+  .chat-workspace :deep(.chat-session-sidebar) {
+    height: auto;
+    max-height: 45vh;
+  }
+
+  .chat-workspace :deep(.chat-conversation) {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .chat-workspace :deep(.chat-message-list) {
+    overflow: visible;
+  }
+
+  .chat-workspace :deep(.chat-empty-state) {
+    min-height: 30vh;
   }
 }
 </style>
