@@ -242,7 +242,7 @@ const kpis = computed(() => {
       icon: TrendingUp, iconTone: '', valueClass: pnlClass(assetDelta.value) || undefined, subClass: pnlClass(a.total_return_ratio) || undefined,
     },
     {
-      label: `今日盈亏 · ${a.daily_profit_trade_date || '--'}`,
+      label: '今日盈亏',
       value: formatSignedMoney(a.daily_profit),
       sub: `收益率 ${formatPercent(a.daily_return_ratio)} · 今日 ${todayTradeCount.value} 次`,
       icon: Zap, iconTone: '', valueClass: pnlClass(a.daily_profit) || undefined, subClass: pnlClass(a.daily_return_ratio) || undefined,
