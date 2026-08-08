@@ -239,9 +239,11 @@ class LLMService:
         cancel_event: threading.Event | None = None,
     ) -> str:
         payload_messages: list[dict[str, Any]] = []
+        chat_app_settings = (tool_context or {}).get("app_settings")
         effective_system_prompt = self._augment_system_prompt(
             system_prompt,
             run_type="chat",
+            capital_limit=self._get_capital_limit(chat_app_settings),
         )
         if effective_system_prompt:
             payload_messages.append(
@@ -280,6 +282,7 @@ class LLMService:
         system_prompt = self._augment_system_prompt(
             app_settings.system_prompt,
             run_type=run_type,
+            capital_limit=self._get_capital_limit(app_settings),
         )
         return {
             "model": app_settings.llm_model,
@@ -302,6 +305,7 @@ class LLMService:
         system_prompt = self._augment_system_prompt(
             app_settings.system_prompt,
             run_type=run_type,
+            capital_limit=self._get_capital_limit(app_settings),
         )
         payload_messages: list[dict[str, Any]] = []
         if system_prompt:
@@ -316,16 +320,49 @@ class LLMService:
         }
 
     @staticmethod
+    def _get_capital_limit(app_settings: Any) -> Any:
+        if isinstance(app_settings, dict):
+            return app_settings.get("capital_limit")
+        return getattr(app_settings, "capital_limit", None)
+
+    @staticmethod
+    def _build_capital_limit_instruction(capital_limit: Any) -> str:
+        try:
+            limit = float(capital_limit)
+        except (TypeError, ValueError):
+            return ""
+        if limit <= 0:
+            return ""
+        if limit >= 1:
+            amount = f"{limit:,.0f}"
+        else:
+            amount = str(limit).rstrip("0").rstrip(".")
+        return (
+            f"你的模拟交易账户可用总资金被限制为约 {amount} 元（整体投入上限），"
+            "并非完整额度的模拟盘。请始终基于这一资金规模管理你的整体投资组合："
+            "据此规划建仓仓位、单笔委托金额与持仓分散度，切勿超出该资金上限，"
+            "让你的总持仓与投入不超过此额度。"
+        )
+
+    @staticmethod
     def _augment_system_prompt(
         base_prompt: str | None,
         *,
         run_type: str | None = None,
+        capital_limit: Any = None,
     ) -> str:
         supplement = skill_registry.build_prompt_supplement(run_type=run_type)
+        capital_instruction = (
+            LLMService._build_capital_limit_instruction(capital_limit)
+            if capital_limit is not None
+            else ""
+        )
         prompt_parts = [
             str(base_prompt or "").strip(),
             str(supplement or "").strip(),
         ]
+        if capital_instruction:
+            prompt_parts.append(capital_instruction)
         if str(run_type or "").strip() == "chat":
             prompt_parts.append(_CHAT_CONFIRMATION_APPEND_PROMPT)
         return "\n\n".join(part for part in prompt_parts if part)

@@ -95,6 +95,8 @@ def _ensure_app_settings_columns(engine) -> None:
         statements.append(
             "ALTER TABLE app_settings ADD COLUMN automation_context_detected_at DATETIME"
         )
+    if "capital_limit" not in columns:
+        statements.append("ALTER TABLE app_settings ADD COLUMN capital_limit FLOAT")
 
     if not statements:
         return

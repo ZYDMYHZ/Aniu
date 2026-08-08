@@ -213,6 +213,60 @@ def test_build_initial_request_payload_uses_run_type_tool_profile() -> None:
     assert "mx_query_market" in names
 
 
+def test_build_capital_limit_instruction_handles_amounts() -> None:
+    assert LLMService._build_capital_limit_instruction(50000) != ""
+    assert LLMService._build_capital_limit_instruction(50000.0) != ""
+    assert "50,000" in LLMService._build_capital_limit_instruction(50000)
+    assert LLMService._build_capital_limit_instruction(None) == ""
+    assert LLMService._build_capital_limit_instruction(0) == ""
+    assert LLMService._build_capital_limit_instruction(-5) == ""
+    assert LLMService._build_capital_limit_instruction("") == ""
+
+
+def test_augment_system_prompt_injects_capital_limit() -> None:
+    prompt = LLMService._augment_system_prompt(
+        "base prompt",
+        run_type="analysis",
+        capital_limit=100000,
+    )
+    assert "base prompt" in prompt
+    assert "100,000" in prompt
+    assert "资金上限" in prompt
+
+    prompt_empty = LLMService._augment_system_prompt(
+        "base prompt",
+        run_type="analysis",
+        capital_limit=None,
+    )
+    assert "base prompt" in prompt_empty
+    assert "资金上限" not in prompt_empty
+
+
+def test_build_request_payload_injects_capital_limit_from_snapshot() -> None:
+    app_settings = SimpleNamespace(
+        llm_model="demo-model",
+        system_prompt="system",
+        task_prompt="task",
+        run_type="analysis",
+        capital_limit=20000,
+    )
+
+    payload = llm_service.build_initial_request_payload(app_settings)
+    system_content = payload["messages"][0]["content"]
+    assert "20,000" in system_content
+
+    no_limit = SimpleNamespace(
+        llm_model="demo-model",
+        system_prompt="system",
+        task_prompt="task",
+        run_type="analysis",
+        capital_limit=None,
+    )
+    payload_no_limit = llm_service.build_initial_request_payload(no_limit)
+    system_content_no_limit = payload_no_limit["messages"][0]["content"]
+    assert "资金上限" not in system_content_no_limit
+
+
 def test_consume_llm_stream_uses_fresh_http_client_per_request(monkeypatch) -> None:
     service = LLMService()
     created_timeouts: list[int] = []

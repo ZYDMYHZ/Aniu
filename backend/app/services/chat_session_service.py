@@ -715,6 +715,7 @@ class ChatSessionService:
                 llm_model=settings.llm_model,
                 llm_base_url=str(settings.llm_base_url),
                 llm_api_key=str(settings.llm_api_key),
+                capital_limit=getattr(settings, "capital_limit", None),
             )
             session_id = session.id
 

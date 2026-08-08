@@ -26,6 +26,9 @@ class AppSettingsBase(BaseModel):
     automation_recent_message_limit: int = Field(default=24, ge=4, le=200)
     automation_enable_auto_compaction: bool = True
     automation_idle_summary_hours: int = Field(default=12, ge=1, le=168)
+    capital_limit: float | None = Field(
+        default=None, ge=0, description="资金上限（元）。留空时不注入提示词。"
+    )
 
 
 class AppSettingsRead(AppSettingsBase):

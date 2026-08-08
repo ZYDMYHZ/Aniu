@@ -907,6 +907,7 @@ class AniuService:
             llm_model=settings.llm_model,
             llm_base_url=str(settings.llm_base_url),
             llm_api_key=str(settings.llm_api_key),
+            capital_limit=getattr(settings, "capital_limit", None),
         )
 
         event_queue: queue.Queue[dict[str, Any] | None] = queue.Queue()
@@ -1024,6 +1025,7 @@ class AniuService:
                 "timeout_seconds": int(
                     schedule.timeout_seconds if schedule else 1800
                 ),
+                "capital_limit": getattr(settings, "capital_limit", None),
                 "automation_session_id": getattr(
                     settings, "automation_session_id", None
                 ),

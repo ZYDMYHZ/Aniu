@@ -61,6 +61,7 @@ class AppSettings(Base):
     automation_context_source: Mapped[str | None] = mapped_column(
         String(32), nullable=True, default="default"
     )
+    capital_limit: Mapped[float | None] = mapped_column(Float, nullable=True)
     automation_context_detected_at: Mapped[datetime | None] = mapped_column(
         DateTime, nullable=True
     )
