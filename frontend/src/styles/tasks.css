@@ -187,3 +187,177 @@
   background: var(--up-soft);
   color: var(--up);
 }
+
+/* ==========================================================================
+   Legacy hard-coded color override (style.css 遗留硬编码色 → theme tokens)
+   ========================================================================== */
+
+/* 共享面板基色（原 .panel,.summary-tile,... 合并规则深蓝背景） */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* 通用小标签 */
+.label-text {
+  color: var(--text-muted);
+}
+
+/* 头部按钮 */
+.button.ghost.soft-header-button {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.button.ghost.soft-header-button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+.button.ghost.soft-header-button.is-loading::after {
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--text);
+}
+
+/* 日期选择触发 */
+.date-input-trigger:focus-visible {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* 运行状态光晕 */
+.run-card-status.tone-success {
+  box-shadow: 0 0 4px var(--down-soft);
+}
+.run-card-status.tone-error {
+  box-shadow: 0 0 4px var(--up-soft);
+}
+.run-card-status.tone-warning {
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.35);
+}
+
+/* 状态点 */
+.status-dot.dot-tone-success {
+  background: var(--down);
+  box-shadow: 0 0 6px var(--down-soft);
+}
+.status-dot.dot-tone-error {
+  background: var(--up);
+  box-shadow: 0 0 6px var(--up-soft);
+}
+.status-dot.dot-tone-warning {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+}
+.status-dot.dot-tone-idle {
+  background: var(--text-muted);
+}
+.status-dot.dot-running {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-soft);
+}
+
+/* 数据统计行 */
+.stat-main {
+  background: transparent;
+}
+.duration-value {
+  color: var(--text-secondary);
+}
+
+/* token 计量 */
+.token-row .token-item {
+  background: var(--accent-soft);
+}
+.token-item.total {
+  background: var(--surface-hover);
+}
+
+/* compact 列表滚动条 */
+.compact-list {
+  scrollbar-color: var(--border) transparent;
+}
+.compact-list:hover {
+  scrollbar-color: var(--border-strong) transparent;
+}
+.compact-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+.compact-list:hover::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+}
+
+/* API 详情 */
+.api-main .item-name {
+  color: var(--text);
+}
+.api-main .item-summary {
+  color: var(--text-muted);
+}
+
+/* 详情空态 */
+.detail-empty-state {
+  background: var(--surface);
+  color: var(--text-muted);
+}
+
+/* Live run 卡片 */
+.run-card.live-run-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-border);
+}
+.run-card.live-run-card.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 1px var(--accent-border), 0 0 22px var(--accent-soft);
+}
+.run-card.live-run-card .run-card-type {
+  color: var(--text);
+}
+.run-card.live-run-card .run-card-time {
+  color: var(--accent);
+}
+.run-card.live-run-card .run-card-duration {
+  color: var(--text-muted);
+}
+
+/* Live 输出 */
+.live-output-content {
+  color: var(--text);
+  scrollbar-color: var(--border) transparent;
+}
+.live-output-content.is-placeholder {
+  color: var(--text-muted);
+}
+.live-output-content:hover {
+  scrollbar-color: var(--border-strong) transparent;
+}
+.live-output-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+.live-output-content:hover::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+}
+
+/* Live 文档状态 */
+.live-doc-dot.is-failed {
+  background: var(--up);
+  box-shadow: 0 0 6px var(--up-soft);
+}
+.live-doc-activity-item.is-running {
+  background: var(--accent-soft);
+}
+.live-doc-activity-item.is-success {
+  background: var(--down-soft);
+}
+.live-doc-tools li.is-running {
+  background: var(--accent-soft);
+}
+.live-doc-tools li.is-failed {
+  background: var(--up-soft);
+  color: var(--up);
+}
+
+/* 列标题下边框 */
+.column-title {
+  border-bottom-color: var(--border);
+}
