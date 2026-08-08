@@ -280,20 +280,21 @@ onBeforeUnmount(() => {
     gap: 12px;
   }
 
-  /* 移动端堆叠布局：侧栏限高内滚，对话区随内容自然撑开，由页面统一滚动 */
+  /* 移动端堆叠布局：侧栏限高内滚；对话区限定高度（输入条常驻可见），消息列表内部滚动 */
   .chat-workspace :deep(.chat-session-sidebar) {
     height: auto;
-    max-height: 45vh;
+    max-height: 38vh;
+    overflow-y: auto;
   }
 
   .chat-workspace :deep(.chat-conversation) {
-    height: auto;
+    height: clamp(280px, 50vh, 480px);
     max-height: none;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .chat-workspace :deep(.chat-message-list) {
-    overflow: visible;
+    overflow-y: auto;
   }
 
   .chat-workspace :deep(.chat-empty-state) {
