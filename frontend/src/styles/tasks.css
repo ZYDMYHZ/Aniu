@@ -361,3 +361,54 @@
 .column-title {
   border-bottom-color: var(--border);
 }
+/* ==========================================================================
+   Layout hardening (AI分析 /tasks) — GPT layout review fixes
+   ========================================================================== */
+
+/* 全局对比度(双主题): 指标块/接口/空状态层次 */
+.stat-main { background: var(--surface-hover); border: 1px solid var(--border); }
+.stat-main .duration-value { color: var(--text-secondary); }
+.token-item { border: 1px solid var(--accent-border); }
+.token-item b { font-size: 13px; }
+.api-main .item-name { color: var(--text); }
+.api-main .item-summary { color: var(--text-secondary); }
+.compact-item { padding: 6px 12px; }
+.api-main .compact-item-status-dot { margin-left: auto; margin-right: 2px; }
+.api-main .item-summary { font-size: 11px; line-height: 1.45; }
+.detail-empty-state { background: var(--surface-hover); border: 1px dashed var(--border-strong); color: var(--text-secondary); font-size: 12.5px; }
+.empty-state, .empty-state p { color: var(--text-secondary); }
+
+/* 窄屏(≤660px): 结构排布修正 */
+@media (max-width: 660px) {
+  /* ① 标题区: h2 保持单行, 英文副标题换到下一行 */
+  .head-main { flex-wrap: wrap; row-gap: 2px; }
+  .head-main .section-kicker { flex: 1 0 100%; margin: 0; }
+
+  /* ②⑤ panel 头部: 标题与操作按钮分行排布, 按钮加大 */
+  .panel-head { flex-wrap: wrap; row-gap: 8px; column-gap: 10px; justify-content: flex-start; }
+  .panel-head-actions { margin-left: auto; flex-wrap: wrap; gap: 6px; }
+  .panel-head-actions .button.soft-header-button,
+  .panel-head .button.soft-header-button { min-height: 32px; padding: 6px 12px; font-size: 12px; white-space: nowrap; }
+  .panel-head-actions .icon-button,
+  .panel-head .icon-button { min-width: 36px; min-height: 36px; }
+
+  /* ③ 运行任务卡片: 自动列宽(每卡至少58px), 文字不换行 */
+  .run-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
+  .run-card { padding: 10px 4px; min-height: 72px; }
+  .run-card-type { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .run-card-duration { font-size: 11px; color: var(--text); white-space: nowrap; }
+
+  /* ④ 历史/日期筛选: 相邻排列, 消除孤立感 */
+  .group-label { gap: 10px; }
+  .group-label-meta { margin-left: 0; gap: 8px; border-left: 1px solid var(--border); padding-left: 10px; }
+
+  /* ⑥ 运行状态行: 时间占整行, 耗时/状态点成行对齐 */
+  .stat-main { flex-wrap: wrap; row-gap: 6px; }
+  .stat-main .time-value { flex: 1 1 100%; font-size: 15px; }
+  .stat-main .duration-value { font-size: 12px; }
+
+  /* ⑦ 指标块间距 */
+  .token-row { gap: 8px; }
+  .token-item { font-size: 11px; padding: 6px 6px; }
+  .token-item i { font-size: 10px; color: var(--text-secondary); }
+}

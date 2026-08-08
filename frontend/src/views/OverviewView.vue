@@ -464,6 +464,18 @@ async function handleManualRefresh() {
   overflow-x: auto;
 }
 
+/* 交易信息/委托信息表格滚动容器(移动端防页面横向溢出) */
+.aniu-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.aniu-table-wrap .aniu-table {
+  min-width: 560px;
+}
+
 .aniu-table {
   width: 100%;
   border-collapse: collapse;
@@ -572,6 +584,13 @@ async function handleManualRefresh() {
   .ov-kpis { grid-template-columns: 1fr; }
   .ov-portfolio-grid { grid-template-columns: 1fr; }
   .aniu-content { padding: var(--sp-4); }
+  /* 交易/委托表格窄屏压缩, 容器内横向滚动 */
+  .aniu-table-wrap { border-radius: var(--radius-sm); }
+  .aniu-table { font-size: 12px; }
+  .aniu-table th,
+  .aniu-table td { padding: var(--sp-2); }
+  .aniu-table th { font-size: 11px; }
+  .ov-table-symbol { font-size: 11px; }
 }
 
 /* 涨跌色（覆盖 scoped 文字色，A股 正红 负绿） */
