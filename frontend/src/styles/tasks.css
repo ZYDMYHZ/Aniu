@@ -1,0 +1,189 @@
+/* ==========================================================================
+   Tasks / AI分析 page — theme-token override (load after style.css)
+   ========================================================================== */
+
+.run-group .group-label .label-text,
+.group-label {
+  color: var(--text-secondary);
+}
+
+.run-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.run-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.run-card.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.run-card.live-run-card {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+
+.run-card-type {
+  color: var(--text);
+}
+
+.run-card-time {
+  color: var(--accent);
+}
+
+.run-card-duration {
+  color: var(--text-muted);
+}
+
+.run-card-status.tone-success {
+  background: var(--down);
+}
+
+.run-card-status.tone-error {
+  background: var(--up);
+}
+
+.run-card-status.tone-warning {
+  background: #f59e0b;
+}
+
+.run-card-status.dot-running {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.run-grid-empty {
+  color: var(--text-muted);
+}
+
+/* detail 三列 */
+.detail-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.column-title {
+  color: var(--text-muted);
+}
+
+.stat-main .time-value,
+.stat-compact {
+  color: var(--text);
+}
+
+.token-row .token-item {
+  color: var(--text-secondary);
+}
+
+.token-row .token-item i {
+  color: var(--text-muted);
+}
+
+.token-row .token-item b {
+  color: var(--text);
+}
+
+/* compact 列表 */
+.compact-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+}
+
+.compact-item:hover {
+  background: var(--surface-hover);
+}
+
+.compact-item.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.compact-item .item-name,
+.compact-item .trade-text-action {
+  color: var(--text-secondary);
+}
+
+.compact-item.active .item-name,
+.compact-item.active .trade-text-action {
+  color: var(--text);
+}
+
+.compact-item .item-summary,
+.compact-item .trade-text-summary {
+  color: var(--text-muted);
+}
+
+/* 交易标签 */
+.trade-text-action.buy {
+  color: var(--up);
+}
+
+.trade-text-action.sell {
+  color: var(--down);
+}
+
+/* output 区 */
+.output-surface {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.output-surface .markdown-panel {
+  background: transparent;
+}
+
+.output-surface .detail-title {
+  color: var(--text-muted);
+}
+
+.raw-output-content {
+  color: var(--text);
+}
+
+.markdown-content {
+  color: var(--text);
+}
+
+/* 状态点 */
+.compact-item-status-dot {
+  background: var(--down);
+}
+
+.compact-item-status-dot.is-running {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.compact-item-status-dot.is-success {
+  background: var(--down);
+}
+
+.compact-item-status-dot.is-failed {
+  background: var(--up);
+}
+
+/* 空态 */
+.empty-state {
+  color: var(--text-muted);
+}
+
+.empty-state p {
+  color: var(--text-muted);
+}
+
+/* 错误条 */
+.error-banner {
+  background: var(--up-soft);
+  color: var(--up);
+}

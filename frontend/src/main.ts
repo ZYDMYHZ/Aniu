@@ -5,6 +5,7 @@ import App from './App.vue'
 import { initTheme } from './composables/useTheme'
 import './styles/base.css'
 import './style.css'
+import './styles/tasks.css'
 import './styles/chat.css'
 
 initTheme()

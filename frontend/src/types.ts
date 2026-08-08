@@ -7,6 +7,7 @@ export interface AppSettings {
   llm_model: string
   automation_context_window_tokens: number | null
   system_prompt: string
+  capital_limit: number | null
   created_at: string
   updated_at: string
 }
