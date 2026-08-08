@@ -1,207 +1,168 @@
 <template>
-  <div class="tab-content">
-    <section class="content-grid content-grid-primary">
-      <section class="panel settings-panel">
-        <div class="panel-head">
-          <div class="head-main">
-            <h2>功能设置</h2>
-            <p class="section-kicker">Configuration</p>
-          </div>
+  <div class="settings-page">
+    <!-- 基础配置 -->
+    <section class="aniu-card">
+      <div class="aniu-sect-head">
+        <div>
+          <h2 class="aniu-section-title">功能设置</h2>
+          <p class="aniu-section-kicker">Configuration</p>
         </div>
+      </div>
 
-        <div class="settings-two-col">
-          <div class="settings-left">
-            <label class="field">
-              <span>Base URL</span>
-              <input v-model="settings.llm_base_url" placeholder="https://api.openai.com/v1" />
-              <p class="field-help">大模型 API 的基础地址，默认可填写 OpenAI 兼容地址。</p>
+      <div class="set-two-col">
+        <div class="set-left">
+          <label class="aniu-field">
+            <span class="aniu-field-label"><Globe :size="14" /> Base URL</span>
+            <input v-model="settings.llm_base_url" class="aniu-input" placeholder="https://api.openai.com/v1" />
+            <p class="aniu-field-help">大模型 API 的基础地址，默认可填写 OpenAI 兼容地址。</p>
+          </label>
+
+          <label class="aniu-field">
+            <span class="aniu-field-label"><KeyRound :size="14" /> API Key</span>
+            <input v-model="settings.llm_api_key" class="aniu-input" type="password" placeholder="sk-..." />
+            <p class="aniu-field-help">用于访问大模型 API 的密钥。</p>
+          </label>
+
+          <div class="set-inline">
+            <label class="aniu-field">
+              <span class="aniu-field-label"><Cpu :size="14" /> 模型名</span>
+              <input v-model="settings.llm_model" class="aniu-input" />
+              <p class="aniu-field-help">要使用的大模型名称，例如 `gpt-4o-mini`。</p>
             </label>
-            <label class="field">
-              <span>API Key</span>
-              <input v-model="settings.llm_api_key" type="password" placeholder="sk-..." />
-              <p class="field-help">用于访问大模型 API 的密钥。</p>
-            </label>
-            <div class="settings-inline-fields">
-              <label class="field">
-                <span>模型名</span>
-                <input v-model="settings.llm_model" />
-                <p class="field-help">要使用的大模型名称，例如 `gpt-4o-mini`。</p>
-              </label>
-              <label class="field">
-                <span>最大上下文</span>
-                <input v-model.number="settings.automation_context_window_tokens" type="number" min="4096" step="1024" />
-                <p class="field-help">默认 128K。后端会按该值的 85% 作为自动化会话上下文压缩触发预算。</p>
-              </label>
-            </div>
-            <label class="field">
-              <span>妙想密钥</span>
-              <input v-model="settings.mx_api_key" type="password" placeholder="妙想接口 apikey" />
-              <p class="field-help">用于访问东方财富妙想接口的密钥。</p>
+            <label class="aniu-field">
+              <span class="aniu-field-label">最大上下文</span>
+              <input v-model.number="settings.automation_context_window_tokens" class="aniu-input" type="number" min="4096" step="1024" />
+              <p class="aniu-field-help">默认 128K。后端按 85% 触发压缩。</p>
             </label>
           </div>
-          <div class="settings-right">
-            <label class="field">
-              <span>系统提示词</span>
-              <textarea v-model="settings.system_prompt" rows="8" />
-              <p class="field-help">指导大模型行为的系统提示词，会影响 AI 的分析和决策方式。</p>
-            </label>
-          </div>
+
+          <label class="aniu-field">
+            <span class="aniu-field-label"><Sparkles :size="14" /> 妙想密钥</span>
+            <input v-model="settings.mx_api_key" class="aniu-input" type="password" placeholder="妙想接口 apikey" />
+            <p class="aniu-field-help">用于访问东方财富妙想接口的密钥。</p>
+          </label>
+
+          <label class="aniu-field">
+            <span class="aniu-field-label"><Coins :size="14" /> 资金上限（元）</span>
+            <input v-model.number="settings.capital_limit" class="aniu-input" type="number" min="0" step="1000" placeholder="留空则不设上限" />
+            <p class="aniu-field-help">模拟交易的总资金/总投入上限。配置后注入 AI 提示词，让其按此资金规模管理仓位，用于测试特定资金盈利。留空不注入。</p>
+          </label>
         </div>
 
-        <div v-if="errorMessage" class="error-banner">{{ errorMessage }}</div>
-
-        <div class="panel-actions">
-          <button
-            class="button primary"
-            :class="{ 'is-loading': busy }"
-            :disabled="busy"
-            @click="saveSettings"
-          >
-            保存设置
-          </button>
+        <div class="set-right">
+          <label class="aniu-field">
+            <span class="aniu-field-label"><MessageSquareText :size="14" /> 系统提示词</span>
+            <textarea v-model="settings.system_prompt" class="aniu-input" rows="14" />
+            <p class="aniu-field-help">指导大模型行为的系统提示词，会影响 AI 的分析和决策方式。</p>
+          </label>
         </div>
-      </section>
+      </div>
 
-      <section class="panel skills-panel">
-        <div class="panel-head">
-          <div class="head-main">
-            <h2>技能管理</h2>
-            <p class="section-kicker">Skills</p>
-          </div>
-          <button
-            class="button ghost small soft-header-button overview-refresh-button"
-            :class="{ 'is-loading': skillsBusy }"
-            :disabled="skillsBusy"
-            @click="reloadSkills"
-          >
-            重新扫描
-          </button>
+      <div v-if="errorMessage" class="error-banner aniu-text-danger">{{ errorMessage }}</div>
+
+      <div class="set-actions">
+        <button class="aniu-btn aniu-btn-primary" :class="{ 'is-loading': busy }" :disabled="busy" @click="saveSettings">
+          <span v-if="busy" class="aniu-spinner"></span>
+          <Save :size="16" />
+          保存设置
+        </button>
+      </div>
+    </section>
+
+    <!-- 技能管理 -->
+    <section class="aniu-card">
+      <div class="aniu-sect-head">
+        <div>
+          <h2 class="aniu-section-title">技能管理</h2>
+          <p class="aniu-section-kicker">Skills</p>
         </div>
+        <button class="aniu-btn aniu-btn-sm" :class="{ 'is-loading': skillsBusy }" :disabled="skillsBusy" @click="reloadSkills">
+          <RefreshCw :size="15" :class="{ spin: skillsBusy }" />
+          重新扫描
+        </button>
+      </div>
 
-        <div class="skills-toolbar">
-          <div class="skills-overview-card">
-            <span class="meta-label">已安装技能</span>
-            <strong>总数 {{ installedOverview.total }}</strong>
-            <div class="skills-overview-breakdown">
-              <span>运行时技能 {{ installedOverview.runtime }}</span>
-              <span>标准技能 {{ installedOverview.standard }}</span>
-            </div>
+      <div class="set-skills-toolbar">
+        <div class="set-skill-stat">
+          <span class="aniu-field-label">已安装技能</span>
+          <strong class="set-skill-stat-total">{{ installedOverview.total }}</strong>
+          <div class="set-skill-stat-break">
+            <span>运行时 {{ installedOverview.runtime }}</span>
+            <span>标准 {{ installedOverview.standard }}</span>
           </div>
-          <div class="skills-overview-card">
-            <span class="meta-label">已启用技能</span>
-            <strong>总数 {{ enabledOverview.total }}</strong>
-            <div class="skills-overview-breakdown">
-              <span>运行时技能 {{ enabledOverview.runtime }}</span>
-              <span>标准技能 {{ enabledOverview.standard }}</span>
-            </div>
+        </div>
+        <div class="set-skill-stat">
+          <span class="aniu-field-label">已启用技能</span>
+          <strong class="set-skill-stat-total">{{ enabledOverview.total }}</strong>
+          <div class="set-skill-stat-break">
+            <span>运行时 {{ enabledOverview.runtime }}</span>
+            <span>标准 {{ enabledOverview.standard }}</span>
           </div>
-          <div class="skills-import-cluster">
-            <span class="meta-label skill-import-hint">输入 SkillHub 链接或添加本地 zip 技能包</span>
-            <div class="skills-import-inline">
-              <label class="field skill-import-field">
-                <div class="skill-import-control" :class="{ 'is-disabled': skillsBusy }">
-                  <input
-                    v-model="importInput"
-                    placeholder="https://skillhub.cn链接或者技能名称"
-                    :disabled="skillsBusy"
-                    @input="handleImportInput"
-                  />
-                  <button
-                    type="button"
-                    class="button ghost small skill-import-file-button"
-                    :disabled="skillsBusy"
-                    @click="openImportFileDialog"
-                  >
-                    {{ selectedArchive ? '更换文件' : '添加文件' }}
-                  </button>
-                </div>
-                <input
-                  ref="skillArchiveInputRef"
-                  class="skill-import-native-input"
-                  type="file"
-                  accept=".zip,application/zip"
-                  :disabled="skillsBusy"
-                  @change="handleImportFileChange"
-                />
-              </label>
-              <button
-                class="button primary skills-import-submit"
-                :class="{ 'is-loading': skillsBusy }"
+        </div>
+        <div class="set-skill-import">
+          <span class="aniu-field-label">输入 SkillHub 链接或添加本地 zip 技能包</span>
+          <div class="set-import-inline">
+            <div class="set-import-control" :class="{ 'is-disabled': skillsBusy }">
+              <input
+                v-model="importInput"
+                class="aniu-input"
+                placeholder="https://skillhub.cn链接或者技能名称"
                 :disabled="skillsBusy"
-                @click="importSkill"
-              >
-                导入技能
+                @input="handleImportInput"
+              />
+              <button type="button" class="aniu-btn aniu-btn-sm" :disabled="skillsBusy" @click="openImportFileDialog">
+                {{ selectedArchive ? '更换文件' : '添加文件' }}
               </button>
             </div>
-            <p v-if="selectedArchive" class="skill-import-selected">
-              已选择文件：{{ selectedArchive.name }}
-            </p>
+            <input
+              ref="skillArchiveInputRef"
+              class="set-file-native"
+              type="file"
+              accept=".zip,application/zip"
+              :disabled="skillsBusy"
+              @change="handleImportFileChange"
+            />
+            <button class="aniu-btn aniu-btn-primary aniu-btn-sm" :class="{ 'is-loading': skillsBusy }" :disabled="skillsBusy" @click="importSkill">
+              导入技能
+            </button>
           </div>
+          <p v-if="selectedArchive" class="set-import-selected">已选择文件：{{ selectedArchive.name }}</p>
         </div>
+      </div>
 
-        <div v-if="skillsErrorMessage" class="error-banner">{{ skillsErrorMessage }}</div>
+      <div v-if="skillsErrorMessage" class="error-banner aniu-text-danger">{{ skillsErrorMessage }}</div>
 
-        <div v-if="skills.length" class="skill-card-list">
-          <article v-for="skill in skills" :key="skill.id" class="skill-card">
-            <div class="skill-card-copy">
-              <div class="skill-title-row">
-                <strong>{{ skill.name }}</strong>
-                <span
-                  class="skill-source-badge"
-                  :class="skill.role === 'runtime' ? 'is-system' : 'is-user'"
-                >
-                  {{ skill.role === 'runtime' ? '运行时技能' : skill.source === 'builtin' ? '内置技能' : '用户技能' }}
-                </span>
-              </div>
-
-              <div class="skill-info-stack">
-                <div class="skill-info-block skill-info-description-block">
-                  <span class="meta-label">技能介绍</span>
-                  <p class="skill-card-description">
-                    {{ skill.description || '暂无技能描述。' }}
-                  </p>
-                </div>
-              </div>
+      <div v-if="skills.length" class="set-skill-list">
+        <article v-for="skill in skills" :key="skill.id" class="aniu-card set-skill-card">
+          <div class="set-skill-copy">
+            <div class="set-skill-title-row">
+              <strong>{{ skill.name }}</strong>
+              <span class="set-skill-badge" :class="skill.role === 'runtime' ? 'is-system' : 'is-user'">
+                {{ skill.role === 'runtime' ? '运行时技能' : skill.source === 'builtin' ? '内置技能' : '用户技能' }}
+              </span>
             </div>
+            <p class="set-skill-desc">{{ skill.description || '暂无技能描述。' }}</p>
+          </div>
 
-            <div class="skill-card-footer">
-              <button
-                v-if="skill.can_delete"
-                type="button"
-                class="button ghost small soft-header-button skill-delete-action"
-                :disabled="skillsBusy"
-                @click="deleteSkill(skill)"
-              >
-                删除
-              </button>
-              <button
-                v-else
-                type="button"
-                class="button ghost small soft-header-button skill-delete-action is-placeholder"
-                disabled
-              >
-                不可删除
-              </button>
-              <button
-                type="button"
-                class="skill-toggle"
-                :class="{ 'is-on': skill.enabled }"
+          <div class="set-skill-actions">
+            <button v-if="skill.can_delete" type="button" class="aniu-btn aniu-btn-sm" :disabled="skillsBusy" @click="deleteSkill(skill)">
+              <Trash2 :size="14" /> 删除
+            </button>
+            <button v-else type="button" class="aniu-btn aniu-btn-sm" disabled>不可删除</button>
+            <label class="aniu-switch" :class="{ 'is-disabled': skillsBusy || !canToggleSkill(skill) }">
+              <input
+                type="checkbox"
+                :checked="skill.enabled"
                 :disabled="skillsBusy || !canToggleSkill(skill)"
-                role="switch"
-                :aria-checked="skill.enabled"
-                @click="toggleSkill(skill)"
-              >
-                <span class="skill-toggle-thumb" aria-hidden="true"></span>
-                {{ skill.enabled ? '启用' : '停用' }}
-              </button>
-            </div>
-          </article>
-        </div>
-
-        <div v-else class="empty-state">
-          <p>当前还没有可展示的技能。</p>
-        </div>
-      </section>
+                @change="toggleSkill(skill)"
+              />
+              <span class="aniu-switch-track"></span>
+              <span class="set-skill-toggle-label">{{ skill.enabled ? '启用' : '停用' }}</span>
+            </label>
+          </div>
+        </article>
+      </div>
+      <div v-else class="aniu-empty">当前还没有可展示的技能。</div>
     </section>
   </div>
 </template>
@@ -209,6 +170,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { Globe, KeyRound, Cpu, Sparkles, Coins, MessageSquareText, Save, RefreshCw, Trash2 } from 'lucide-vue-next'
 
 import { useSkillManager } from '@/composables/useSkillManager'
 import { useAppStore } from '@/stores/legacy'
@@ -301,3 +263,213 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style scoped>
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.set-two-col {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--sp-6);
+}
+
+.set-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.set-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.set-right .aniu-field {
+  flex: 1;
+}
+
+.set-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.set-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--sp-5);
+}
+
+.set-skills-toolbar {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: var(--sp-5);
+  align-items: start;
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.set-skill-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 130px;
+}
+
+.set-skill-stat-total {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.set-skill-stat-break {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.set-skill-import {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.set-import-inline {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: stretch;
+}
+
+.set-import-control {
+  display: flex;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.set-import-control.is-disabled {
+  opacity: 0.5;
+}
+
+.set-file-native {
+  display: none;
+}
+
+.set-import-selected {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--accent);
+}
+
+.set-skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+
+.set-skill-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.set-skill-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.set-skill-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.set-skill-title-row strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.set-skill-badge {
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.set-skill-badge.is-system {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.set-skill-badge.is-user {
+  color: var(--text-secondary);
+  background: var(--surface-hover);
+}
+
+.set-skill-desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.set-skill-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex: 0 0 auto;
+}
+
+.set-skill-toggle-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-width: 32px;
+}
+
+.aniu-switch.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-banner {
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-sm);
+  background: var(--up-soft);
+  font-size: 13px;
+  margin-top: var(--sp-4);
+}
+
+.spin {
+  animation: set-spin 0.8s linear infinite;
+}
+
+@keyframes set-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .set-two-col { grid-template-columns: 1fr; }
+  .set-skills-toolbar { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .set-inline { grid-template-columns: 1fr; }
+  .set-skill-card { flex-direction: column; align-items: stretch; }
+}
+</style>

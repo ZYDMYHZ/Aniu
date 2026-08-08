@@ -1,48 +1,39 @@
 <template>
-  <div class="tab-content">
-    <section class="panel chat-panel">
-      <div class="panel-head">
-        <div class="head-main">
-          <h2>AI 聊天</h2>
-          <p class="section-kicker">AI Chat</p>
-        </div>
-      </div>
+  <div class="chat-page">
+    <div class="chat-workspace">
+      <ChatSessionSidebar
+        :sessions="sessions"
+        :persistent-session="persistentSession"
+        :persistent-selected="persistentSelected"
+        :current-session-id="currentSessionId"
+        :loading="sessionsLoading"
+        @select="handleSelect"
+        @select-persistent="handleSelectPersistent"
+        @create="handleCreate"
+        @delete="handleDelete"
+        @delete-persistent="handleDeletePersistent"
+      />
 
-      <div class="chat-workspace">
-        <ChatSessionSidebar
-          :sessions="sessions"
-          :persistent-session="persistentSession"
-          :persistent-selected="persistentSelected"
-          :current-session-id="currentSessionId"
-          :loading="sessionsLoading"
-          @select="handleSelect"
-          @select-persistent="handleSelectPersistent"
-          @create="handleCreate"
-          @delete="handleDelete"
-          @delete-persistent="handleDeletePersistent"
-        />
-
-        <ChatConversation
-          :session="persistentSelected ? persistentSession : currentSession"
-          :messages="persistentSelected ? persistentMessages : messages"
-          v-model="input"
-          :pending-attachments="pendingAttachments"
-          :sending="sending"
-          :loading="persistentSelected ? persistentLoading : loading"
-          :loading-older-messages="persistentSelected ? persistentLoadingOlder : loadingOlderMessages"
-          :has-more-messages="persistentSelected ? persistentHasMoreMessages : hasMoreMessages"
-          :can-send="persistentSelected ? false : canSend"
-          :error-message="persistentSelected ? persistentErrorMessage : errorMessage"
-          :read-only="persistentSelected"
-          :ensure-session-ready="ensureSessionReady"
-          :load-older-messages="persistentSelected ? loadOlderPersistentMessages : loadOlderMessages"
-          @submit="handleSubmit"
-          @attach="addAttachment"
-          @remove-attachment="removeAttachment"
-          @upload-error="handleUploadError"
-        />
-      </div>
-    </section>
+      <ChatConversation
+        :session="persistentSelected ? persistentSession : currentSession"
+        :messages="persistentSelected ? persistentMessages : messages"
+        v-model="input"
+        :pending-attachments="pendingAttachments"
+        :sending="sending"
+        :loading="persistentSelected ? persistentLoading : loading"
+        :loading-older-messages="persistentSelected ? persistentLoadingOlder : loadingOlderMessages"
+        :has-more-messages="persistentSelected ? persistentHasMoreMessages : hasMoreMessages"
+        :can-send="persistentSelected ? false : canSend"
+        :error-message="persistentSelected ? persistentErrorMessage : errorMessage"
+        :read-only="persistentSelected"
+        :ensure-session-ready="ensureSessionReady"
+        :load-older-messages="persistentSelected ? loadOlderPersistentMessages : loadOlderMessages"
+        @submit="handleSubmit"
+        @attach="addAttachment"
+        @remove-attachment="removeAttachment"
+        @upload-error="handleUploadError"
+      />
+    </div>
   </div>
 </template>
 
@@ -255,3 +246,33 @@ onBeforeUnmount(() => {
   disposeRunStreamListener()
 })
 </script>
+
+<style scoped>
+.chat-page {
+  height: calc(100vh - 68px - var(--gutter) * 2);
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-workspace {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  min-height: 0;
+}
+
+@media (max-width: 768px) {
+  .chat-page {
+    height: calc(100vh - 68px - var(--gutter) * 2);
+  }
+  .chat-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

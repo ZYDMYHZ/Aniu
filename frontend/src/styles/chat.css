@@ -1,0 +1,278 @@
+/* ==========================================================================
+   Chat components — theme-token override (load after style.css)
+   Re-maps legacy chat component hardcoded colors to the Aniu design tokens
+   so the whole chat UI follows dark/light theme.
+   ========================================================================== */
+
+.chat-workspace {
+  --chat-pane-height: clamp(560px, 68vh, 760px);
+  gap: var(--sp-4);
+}
+
+/* ---- Sidebar ---- */
+.chat-session-sidebar {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: var(--sp-3);
+}
+
+.chat-new-button {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.chat-new-button:hover:not(:disabled) {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.chat-session-search-input {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+}
+
+.chat-session-search-input:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.chat-session-group-title {
+  color: var(--text-muted);
+}
+
+.chat-session-item {
+  border-radius: var(--radius-sm);
+}
+
+.chat-session-item:hover {
+  background: var(--surface-hover);
+}
+
+.chat-session-item.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.chat-session-title {
+  color: var(--text);
+}
+
+.chat-session-meta {
+  color: var(--text-muted);
+}
+
+.chat-session-action {
+  color: var(--text-muted);
+}
+
+.chat-session-action:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.chat-session-action.danger:hover {
+  background: var(--up-soft);
+  color: var(--up);
+}
+
+.chat-session-empty {
+  color: var(--text-muted);
+}
+
+/* ---- Conversation ---- */
+.chat-conversation {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.chat-conversation-head {
+  border-bottom: 1px solid var(--divider);
+}
+
+.chat-conversation-title {
+  color: var(--text);
+}
+
+.chat-conversation-meta,
+.chat-session-summary-label {
+  color: var(--text-muted);
+}
+
+.chat-session-summary {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.chat-session-summary-content {
+  color: var(--text-secondary);
+}
+
+.chat-message-list:hover {
+  scrollbar-color: var(--border) transparent;
+}
+
+/* ---- Messages ---- */
+.chat-message {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.chat-message.role-user {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.chat-message.role-system {
+  background: var(--surface-hover);
+  border-color: var(--border);
+}
+
+.chat-message-role {
+  color: var(--accent);
+}
+
+.chat-message-body {
+  color: var(--text);
+}
+
+.chat-message-text.is-placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.chat-message.role-assistant .chat-message-body {
+  color: var(--text);
+}
+
+/* ---- Attachments ---- */
+.chat-attachment-chip {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.chat-attachment-thumb-placeholder {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.chat-attachment-name {
+  color: var(--text);
+}
+
+.chat-attachment-size {
+  color: var(--text-muted);
+}
+
+.chat-attachment-remove:hover {
+  background: var(--up-soft);
+  color: var(--up);
+}
+
+.chat-attachment-open:hover .chat-attachment-name {
+  color: var(--accent);
+}
+
+/* ---- Tool calls ---- */
+.chat-tool-call-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.chat-tool-call-toggle {
+  color: var(--text-secondary);
+}
+
+.chat-tool-call-toggle:hover {
+  background: var(--surface-hover);
+}
+
+.chat-tool-call-toggle-icon,
+.chat-tool-name {
+  color: var(--accent);
+}
+
+.chat-tool-calls li {
+  color: var(--text-secondary);
+}
+
+.chat-tool-calls li.is-running .chat-tool-status { color: #f59e0b; }
+.chat-tool-calls li.is-done .chat-tool-status { color: var(--down); }
+.chat-tool-calls li.is-failed .chat-tool-status { color: var(--up); }
+
+.chat-tool-summary {
+  color: var(--text-muted);
+}
+
+/* ---- Composer ---- */
+.chat-composer-shell {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-composer.is-dragging .chat-composer-shell,
+.chat-composer-shell:focus-within {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.chat-composer-dropzone {
+  border: 1px dashed var(--accent-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  color: var(--text);
+}
+
+.chat-composer-input {
+  color: var(--text);
+}
+
+.chat-composer-input:disabled {
+  color: var(--text-muted);
+}
+
+.chat-composer-placeholder {
+  color: var(--text-muted);
+}
+
+.chat-composer-add-button {
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+
+.chat-composer-add-button:hover:not(:disabled) {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.chat-composer-send-button {
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: none;
+}
+
+.chat-composer-send-button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+  color: var(--accent-ink);
+}
+
+.chat-composer-send-button:disabled {
+  background: var(--surface-active);
+  color: var(--text-muted);
+}

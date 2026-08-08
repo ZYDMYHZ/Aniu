@@ -576,6 +576,52 @@ textarea.aniu-input {
   color: var(--accent);
 }
 
+/* 开关 Switch */
+.aniu-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  min-height: 34px;
+}
+
+.aniu-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.aniu-switch-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: var(--radius-pill);
+  background: var(--border-strong);
+  transition: background var(--dur) var(--ease);
+  flex: 0 0 auto;
+}
+
+.aniu-switch-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform var(--dur) var(--ease);
+}
+
+.aniu-switch input:checked + .aniu-switch-track {
+  background: var(--accent);
+}
+
+.aniu-switch input:checked + .aniu-switch-track::after {
+  transform: translateX(20px);
+}
+
 .aniu-muted {
   color: var(--text-muted);
 }
