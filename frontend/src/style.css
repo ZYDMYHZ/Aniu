@@ -1,16 +1,8 @@
 :root {
-  font-family: Inter, "IBM Plex Sans", "Segoe UI", sans-serif;
-  color: #eef4ff;
-  background:
-    radial-gradient(circle at 10% 10%, rgba(71, 132, 255, 0.2), transparent 28%),
-    radial-gradient(circle at 88% 12%, rgba(31, 208, 163, 0.14), transparent 24%),
-    radial-gradient(circle at 50% 100%, rgba(255, 168, 76, 0.08), transparent 30%),
-    linear-gradient(180deg, #07111d 0%, #0a1524 45%, #101827 100%);
   --overview-table-head-height: 45px;
   --overview-table-row-height: 80px;
   --overview-table-visible-rows: 5;
   --overview-table-fixed-height: calc(var(--overview-table-head-height) + (var(--overview-table-row-height) * var(--overview-table-visible-rows)));
-  color-scheme: dark;
   line-height: 1.5;
   font-weight: 400;
 }
@@ -323,9 +315,9 @@ textarea {
   width: min(100%, 420px);
   padding: 36px 32px 32px;
   border-radius: 24px;
-  background: rgba(11, 18, 32, 0.84);
-  border: 1px solid rgba(145, 170, 214, 0.14);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.26);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
 }
 
 .login-avatar-shell {
@@ -336,8 +328,8 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(88, 185, 255, 0.18), rgba(28, 214, 166, 0.12));
-  border: 1px solid rgba(145, 170, 214, 0.18);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
 }
 
 .login-avatar {
@@ -355,11 +347,12 @@ textarea {
   margin: 0;
   font-size: 36px;
   line-height: 1;
+  color: var(--text);
 }
 
 .login-copy p {
   margin: 10px 0 0;
-  color: #9cb2cf;
+  color: var(--text-secondary);
 }
 
 .login-form {
@@ -373,7 +366,7 @@ textarea {
   align-items: center;
   gap: 10px;
   margin-top: -2px;
-  color: #a9bdd9;
+  color: var(--text-secondary);
   font-size: 13px;
   user-select: none;
 }
@@ -382,12 +375,12 @@ textarea {
   width: 15px;
   height: 15px;
   margin: 0;
-  accent-color: #58b9ff;
+  accent-color: var(--accent);
 }
 
 .login-error {
   margin: -4px 0 0;
-  color: #ff92ab;
+  color: var(--up);
   font-size: 13px;
 }
 
@@ -4077,11 +4070,11 @@ textarea {
 }
 
 .profit-up {
-  color: #ff8d9f;
+  color: var(--up);
 }
 
 .profit-down {
-  color: #72e2a3;
+  color: var(--down);
 }
 
 .button.is-loading {

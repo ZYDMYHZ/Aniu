@@ -1,0 +1,692 @@
+/* ==========================================================================
+   Aniu Design System — base tokens, theme, global layout shell
+   极简风格：留白、低对比、柔和青色 accent；双模式（dark 默认 / light 可选）
+   A股 红涨（up）/ 绿跌（down）
+   ========================================================================== */
+
+/* ---------- 主题变量 ---------- */
+:root {
+  /* 字体 */
+  --font-sans: 'Inter', 'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+
+  /* 圆角 / 间距栅格 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --gutter: 24px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+
+  /* 动效 */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 150ms;
+}
+
+/* ---------- 深色主题（默认） ---------- */
+:root,
+[data-theme='dark'] {
+  --bg: #2c2f33;
+  --bg-elevated: #34373c;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+  --surface-active: rgba(255, 255, 255, 0.09);
+  --border: #3c4046;
+  --border-strong: #494d54;
+  --divider: #3a3d43;
+
+  --text: #e5e5e5;
+  --text-secondary: #bbbbbb;
+  --text-muted: #8f959e;
+
+  --accent: #1abc9c;
+  --accent-ink: #06231d;
+  --accent-soft: rgba(26, 188, 156, 0.14);
+  --accent-border: rgba(26, 188, 156, 0.4);
+
+  /* A股：红涨 绿跌 */
+  --up: #f8524d;
+  --down: #22c55e;
+  --up-soft: rgba(248, 82, 77, 0.14);
+  --down-soft: rgba(34, 197, 94, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.22);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+  color-scheme: dark;
+}
+
+/* ---------- 浅色主题 ---------- */
+[data-theme='light'] {
+  --bg: #f9fafb;
+  --bg-elevated: #ffffff;
+  --surface: rgba(0, 0, 0, 0.02);
+  --surface-hover: rgba(0, 0, 0, 0.04);
+  --surface-active: rgba(0, 0, 0, 0.06);
+  --border: #e0e0e0;
+  --border-strong: #c9ccd1;
+  --divider: #e6e6e6;
+
+  --text: #333333;
+  --text-secondary: #777777;
+  --text-muted: #9aa0a8;
+
+  --accent: #1abc9c;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(26, 188, 156, 0.12);
+  --accent-border: rgba(26, 188, 156, 0.35);
+
+  /* A股：红涨 绿跌 */
+  --up: #e0352f;
+  --down: #16a34a;
+  --up-soft: rgba(224, 53, 47, 0.1);
+  --down-soft: rgba(22, 163, 74, 0.1);
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.1);
+
+  color-scheme: light;
+}
+
+/* ---------- 基础 ---------- */
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+  height: auto;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+/* ---------- 应用骨架 ---------- */
+.aniu-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.aniu-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* 侧栏 */
+.aniu-sidebar {
+  width: 240px;
+  flex: 0 0 240px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 40;
+  transition: transform var(--dur) var(--ease), width var(--dur) var(--ease);
+}
+
+.aniu-sidebar.is-collapsed {
+  width: 68px;
+  flex: 0 0 68px;
+}
+
+.aniu-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-4);
+  min-height: 68px;
+}
+
+.aniu-sidebar-brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex: 0 0 auto;
+}
+
+.aniu-sidebar-brand-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.aniu-sidebar-brand-copy strong {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.aniu-sidebar-brand-copy span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.aniu-sidebar-nav {
+  flex: 1 1 auto;
+  padding: var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.aniu-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  min-height: 44px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+}
+
+.aniu-nav-link svg {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  transition: color var(--dur) var(--ease);
+}
+
+.aniu-nav-link:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.aniu-nav-link.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.aniu-nav-link.active svg {
+  color: var(--accent);
+}
+
+.aniu-nav-link.is-collapsed {
+  justify-content: center;
+  padding: 10px;
+}
+
+.aniu-sidebar-foot {
+  padding: var(--sp-3);
+  border-top: 1px solid var(--divider);
+}
+
+.aniu-sidebar-collapse {
+  width: 100%;
+}
+
+/* 主内容区 */
+.aniu-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶栏 */
+.aniu-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 0 var(--gutter);
+  height: 68px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.aniu-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.aniu-topbar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.aniu-topbar-spacer {
+  flex: 1 1 auto;
+}
+
+.aniu-kpi-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  white-space: nowrap;
+}
+
+.aniu-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.1;
+}
+
+.aniu-kpi-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.aniu-kpi-value {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.aniu-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.aniu-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.aniu-icon-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.aniu-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* 内容容器 */
+.aniu-content {
+  flex: 1 1 auto;
+  padding: var(--gutter);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 页脚 */
+.aniu-footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+  padding: var(--sp-5) var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  color: var(--text-muted);
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.aniu-footer-copy {
+  flex: 1 1 auto;
+  min-width: 160px;
+}
+
+.aniu-footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.aniu-footer a:hover {
+  color: var(--accent);
+}
+
+/* 移动端遮罩 */
+.aniu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 35;
+}
+
+/* ---------- 涨跌色调工具类 ---------- */
+.aniu-tone-up {
+  color: var(--up);
+}
+
+.aniu-tone-down {
+  color: var(--down);
+}
+
+/* ==========================================================================
+   共享组件层：卡片 / 按钮 / 表单 / 状态徽标
+   ========================================================================== */
+.aniu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.aniu-card:hover {
+  border-color: var(--border-strong);
+}
+
+.aniu-card-interactive {
+  cursor: pointer;
+}
+
+.aniu-card-interactive:hover {
+  transform: scale(1.02);
+}
+
+.aniu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 44px;
+  padding: 0 var(--sp-5);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.aniu-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.aniu-btn:active {
+  transform: scale(0.98);
+}
+
+.aniu-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aniu-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.aniu-btn-primary:hover {
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.aniu-btn-sm {
+  min-height: 36px;
+  padding: 0 var(--sp-3);
+  font-size: 13px;
+}
+
+.aniu-btn-lg {
+  min-height: 48px;
+  padding: 0 var(--sp-6);
+  font-size: 15px;
+}
+
+.aniu-icon-only {
+  width: 44px;
+  padding: 0;
+  justify-content: center;
+}
+
+.aniu-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.aniu-input::placeholder {
+  color: var(--text-muted);
+}
+
+.aniu-input:focus,
+.aniu-input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+textarea.aniu-input {
+  padding: var(--sp-3);
+  resize: vertical;
+}
+
+.aniu-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.aniu-field-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.aniu-field-label svg {
+  color: var(--text-muted);
+}
+
+.aniu-field-help {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.aniu-checkbox {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+}
+
+.aniu-text-danger {
+  color: var(--up);
+}
+
+.aniu-text-success {
+  color: var(--down);
+}
+
+.aniu-text-accent {
+  color: var(--accent);
+}
+
+.aniu-muted {
+  color: var(--text-muted);
+}
+
+.aniu-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.aniu-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  animation: aniu-spin 0.8s linear infinite;
+}
+
+@keyframes aniu-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aniu-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.aniu-section-kicker {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+
+.aniu-sect-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.aniu-empty {
+  padding: var(--sp-6);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* ---------- 登录页独立层 ---------- */
+.aniu-login-standalone {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .aniu-kpi-strip > .aniu-kpi:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .aniu-menu-btn {
+    display: inline-flex;
+  }
+
+  .aniu-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    width: 260px;
+    flex-basis: 260px;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .aniu-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .aniu-sidebar.desktop-collapsed {
+    width: 260px;
+    flex-basis: 260px;
+  }
+
+  .aniu-kpi-strip {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .aniu-sidebar.is-open {
+    transform: none;
+  }
+}

@@ -12,6 +12,7 @@
   "dependencies": {
     "dompurify": "^3.3.3",
     "highlight.js": "^11.10.0",
+    "lucide-vue-next": "^1.0.0",
     "marked": "^14.1.2",
     "marked-highlight": "^2.2.0",
     "pinia": "^3.0.4",
