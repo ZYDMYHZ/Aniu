@@ -993,7 +993,7 @@ onBeforeUnmount(() => {
   padding: 5px 8px;
   box-sizing: border-box;
   border: none;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--surface);
   border-radius: 4px;
   text-align: left;
   cursor: pointer;
@@ -1006,21 +1006,22 @@ onBeforeUnmount(() => {
 }
 
 .compact-item-button:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-hover);
 }
 
 .compact-item-button.active {
   box-shadow: none;
+  background: var(--accent-soft);
 }
 
 .compact-item-button.active .item-name,
 .compact-item-button.active .trade-text-action {
-  color: #f6fbff;
+  color: var(--text);
 }
 
 .compact-item-button.active .item-summary,
 .compact-item-button.active .trade-text-summary {
-  color: #a9c7e8;
+  color: var(--text-secondary);
 }
 
 .compact-item-button .item-name,
@@ -1084,24 +1085,24 @@ onBeforeUnmount(() => {
   flex: 0 0 auto;
   align-self: center;
   border-radius: 999px;
-  background: rgba(74, 222, 128, 0.92);
-  box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+  background: var(--down);
+  box-shadow: 0 0 8px var(--down-soft);
 }
 
 .compact-item-status-dot.is-running {
-  background: #31d69f;
-  box-shadow: 0 0 10px rgba(49, 214, 159, 0.68);
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
   animation: live-pulse 1.4s ease-in-out infinite;
 }
 
 .compact-item-status-dot.is-success {
-  background: rgba(74, 222, 128, 0.96);
-  box-shadow: 0 0 8px rgba(74, 222, 128, 0.42);
+  background: var(--down);
+  box-shadow: 0 0 8px var(--down-soft);
 }
 
 .compact-item-status-dot.is-failed {
-  background: rgba(248, 113, 113, 0.96);
-  box-shadow: 0 0 8px rgba(248, 113, 113, 0.42);
+  background: var(--up);
+  box-shadow: 0 0 8px var(--up-soft);
 }
 
 .trade-text-summary {
@@ -1120,9 +1121,9 @@ onBeforeUnmount(() => {
   padding: 12px;
   overflow: hidden;
   height: 700px;
-  border: 1px solid rgba(145, 170, 214, 0.12);
-  border-radius: 8px;
-  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
 }
 
 .markdown-content {
@@ -1131,10 +1132,11 @@ onBeforeUnmount(() => {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
+  color: var(--text);
 }
 
 .markdown-content:hover {
-  scrollbar-color: rgba(145, 170, 214, 0.3) rgba(15, 23, 42, 0.05);
+  scrollbar-color: var(--border) transparent;
 }
 
 .markdown-content::-webkit-scrollbar {
@@ -1146,12 +1148,12 @@ onBeforeUnmount(() => {
 }
 
 .markdown-content::-webkit-scrollbar-thumb {
-  background: rgba(145, 170, 214, 0.25);
+  background: var(--border);
   border-radius: 10px;
 }
 
 .markdown-content:hover::-webkit-scrollbar-thumb {
-  background: rgba(145, 170, 214, 0.45);
+  background: var(--border-strong);
 }
 
 .markdown-content :deep(p:first-child) {
@@ -1164,7 +1166,7 @@ onBeforeUnmount(() => {
 
 .live-markdown-content :deep(.live-output-loading) {
   margin: 0;
-  color: #8ea4c5;
+  color: var(--text-muted);
 }
 
 .raw-output-content {
@@ -1175,7 +1177,7 @@ onBeforeUnmount(() => {
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
-  color: #e2e8f0;
+  color: var(--text);
   font-size: 12px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -1183,7 +1185,7 @@ onBeforeUnmount(() => {
 }
 
 .raw-output-content:hover {
-  scrollbar-color: rgba(145, 170, 214, 0.3) rgba(15, 23, 42, 0.05);
+  scrollbar-color: var(--border) transparent;
 }
 
 .raw-output-content::-webkit-scrollbar {
@@ -1195,12 +1197,12 @@ onBeforeUnmount(() => {
 }
 
 .raw-output-content::-webkit-scrollbar-thumb {
-  background: rgba(145, 170, 214, 0.25);
+  background: var(--border);
   border-radius: 10px;
 }
 
 .raw-output-content:hover::-webkit-scrollbar-thumb {
-  background: rgba(145, 170, 214, 0.45);
+  background: var(--border-strong);
 }
 
 .output-surface > .detail-empty-state {

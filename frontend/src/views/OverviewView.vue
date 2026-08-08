@@ -569,4 +569,28 @@ async function handleManualRefresh() {
   .ov-portfolio-grid { grid-template-columns: 1fr; }
   .aniu-content { padding: var(--sp-4); }
 }
+
+/* 涨跌色（覆盖 scoped 文字色，A股 正红 负绿） */
+.ov-kpi-value.pnl-up,
+.ov-pos-ratio.pnl-up,
+.ov-pos-value.pnl-up,
+.ov-pos-meta b.pnl-up,
+.ov-pos-detail-row b.pnl-up,
+.aniu-table td.pnl-up {
+  color: var(--up);
+}
+
+.ov-kpi-value.pnl-down,
+.ov-pos-ratio.pnl-down,
+.ov-pos-value.pnl-down,
+.ov-pos-meta b.pnl-down,
+.ov-pos-detail-row b.pnl-down,
+.aniu-table td.pnl-down {
+  color: var(--down);
+}
+
+.ov-kpi-value.pnl-zero,
+.ov-pos-ratio.pnl-zero {
+  color: var(--text-muted);
+}
 </style>
